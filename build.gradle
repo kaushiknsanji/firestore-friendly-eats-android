@@ -47,9 +47,13 @@ buildscript {
     }
 }
 
+/*
+ // Used with dependabot to auto-update versions of dependencies.
+ // Uncomment if needed.
 plugins {
     id 'com.github.ben-manes.versions' version '0.27.0'
 }
+*/
 
 allprojects {
     repositories {
@@ -58,6 +62,16 @@ allprojects {
         mavenLocal()
     }
 
+    // Added for detecting deprecated usages
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs.add("-Xlint:deprecation")
+        }
+    }
+
+    /*
+    // Used with dependabot to auto-update versions of dependencies.
+    // Uncomment if needed.
     def isNonStable = { candidate -> 
         return ['alpha', 'beta', 'rc', 'SNAPSHOT'].any { word ->
             return candidate.version.contains(word)
@@ -78,6 +92,7 @@ allprojects {
             isNonStable(it.candidate) || isBlackListed(it.candidate)
         }
     }
+    */
 }
 
 task clean(type: Delete) {

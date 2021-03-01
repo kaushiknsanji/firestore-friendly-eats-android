@@ -17,7 +17,6 @@ package com.google.firebase.example.fireeats;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +37,7 @@ import com.google.firebase.firestore.Query;
 import java.util.Collections;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements
         showTodoToast();
 
         // Set header
-        mBinding.textCurrentSearch.setText(Html.fromHtml(filters.getSearchDescription(this)));
+        mBinding.textCurrentSearch.setText(HtmlCompat.fromHtml(filters.getSearchDescription(this), HtmlCompat.FROM_HTML_MODE_COMPACT));
         mBinding.textCurrentSortBy.setText(filters.getOrderDescription(this));
 
         // Save filters

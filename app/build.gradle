@@ -1,0 +1,72 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion versions.compileSdk
+
+    defaultConfig {
+        applicationId 'com.google.firebase.example.fireeats'
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode 1
+        versionName '1.0'
+
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    // Target Java8
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+    }
+}
+
+dependencies {
+    // Firebase BoM
+    implementation platform("com.google.firebase:firebase-bom:$versions.firebase_bom")
+    // Firestore
+    implementation "com.google.firebase:firebase-firestore"
+    // Auth
+    implementation "com.google.firebase:firebase-auth"
+
+    // Play services
+    implementation "com.google.android.gms:play-services-auth:$versions.play_services_auth"
+
+    // FirebaseUI (for authentication)
+    implementation "com.firebaseui:firebase-ui-auth:$versions.firebase_ui"
+
+    // Support Libs
+    implementation "androidx.appcompat:appcompat:$versions.appcompat"
+    implementation "androidx.vectordrawable:vectordrawable-animated:$versions.vectordrawable_animated"
+    implementation "androidx.cardview:cardview:$versions.cardview"
+    implementation "androidx.browser:browser:$versions.browser"
+    implementation "com.google.android.material:material:$versions.material"
+    implementation "androidx.multidex:multidex:$versions.multidex"
+    implementation "androidx.recyclerview:recyclerview:$versions.recyclerview"
+
+    // Android architecture components
+    implementation "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle"
+
+    // Third-party libraries
+    implementation "me.zhanghai.android.materialratingbar:library:$versions.materialratingbar"
+    implementation "com.github.bumptech.glide:glide:$versions.glide"
+}
+
+apply plugin: 'com.google.gms.google-services'

@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.snackbar.Snackbar;
@@ -30,6 +29,7 @@ import com.google.firebase.example.fireeats.databinding.ActivityRestaurantDetail
 import com.google.firebase.example.fireeats.model.Rating;
 import com.google.firebase.example.fireeats.model.Restaurant;
 import com.google.firebase.example.fireeats.util.FirebaseUtil;
+import com.google.firebase.example.fireeats.util.GlideApp;
 import com.google.firebase.example.fireeats.util.RestaurantUtil;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -169,7 +169,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         mBinding.restaurantPrice.setText(RestaurantUtil.getPriceString(restaurant));
 
         // Background image
-        Glide.with(mBinding.restaurantImage.getContext())
+        GlideApp.with(mBinding.restaurantImage.getContext())
                 .load(restaurant.getPhoto())
                 .into(mBinding.restaurantImage);
     }

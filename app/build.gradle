@@ -64,9 +64,12 @@ dependencies {
     // Android architecture components
     implementation "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle"
 
-    // Third-party libraries
+    // Custom Material Ratingbar
     implementation "me.zhanghai.android.materialratingbar:library:$versions.materialratingbar"
+
+    // Glide
     implementation "com.github.bumptech.glide:glide:$versions.glide"
+    annotationProcessor "com.github.bumptech.glide:compiler:$versions.glide"
 }
 
 apply plugin: 'com.google.gms.google-services'

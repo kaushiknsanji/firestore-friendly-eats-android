@@ -20,10 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.example.fireeats.R;
 import com.google.firebase.example.fireeats.databinding.ItemRestaurantBinding;
 import com.google.firebase.example.fireeats.model.Restaurant;
+import com.google.firebase.example.fireeats.util.GlideApp;
 import com.google.firebase.example.fireeats.util.RestaurantUtil;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
@@ -81,7 +81,7 @@ public class RestaurantAdapter extends FirestoreAdapter<RestaurantAdapter.ViewHo
             Resources resources = itemView.getResources();
 
             // Load image
-            Glide.with(mItemBinding.restaurantItemImage.getContext())
+            GlideApp.with(mItemBinding.restaurantItemImage.getContext())
                     .load(restaurant.getPhoto())
                     .into(mItemBinding.restaurantItemImage);
 

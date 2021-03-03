@@ -27,8 +27,11 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.example.fireeats.adapter.RestaurantAdapter;
 import com.google.firebase.example.fireeats.databinding.ActivityMainBinding;
+import com.google.firebase.example.fireeats.model.Restaurant;
 import com.google.firebase.example.fireeats.util.FirebaseUtil;
+import com.google.firebase.example.fireeats.util.RestaurantUtil;
 import com.google.firebase.example.fireeats.viewmodel.MainActivityViewModel;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -149,8 +152,17 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void onAddItemsClicked() {
-        // TODO(developer): Add random restaurants
-        showTodoToast();
+        // Get a reference to "restaurants" collection
+        CollectionReference restaurants = mFirestore.collection("restaurants");
+
+        // Add 10 random restaurants
+        for (int i = 0; i < 10; i++) {
+            // Get a random Restaurant POJO
+            Restaurant restaurant = RestaurantUtil.getRandom(this);
+
+            // Add a new "restaurant" document to the "restaurants" collection
+            restaurants.add(restaurant);
+        }
     }
 
     @Override

@@ -37,6 +37,9 @@ public class Restaurant {
     private int numRatings;
     private double avgRating;
 
+    /**
+     * Empty constructor required for Firebase auto data mapping
+     */
     public Restaurant() {
     }
 

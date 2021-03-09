@@ -85,8 +85,14 @@ public class MainActivity extends AppCompatActivity implements
         // Enable Firestore logging
         FirebaseFirestore.setLoggingEnabled(true);
 
-        // Initialize Firestore and the main RecyclerView
+        // Initialize Firestore
         mFirestore = FirebaseUtil.getFirestore();
+        // Initialize Query on "restaurants" Collection ordered by "avgRating" descending
+        // and take first 50 entries only
+        mQuery = mFirestore.collection("restaurants")
+                .orderBy("avgRating", Query.Direction.DESCENDING)
+                .limit(LIMIT);
+        // Initialize the main RecyclerView
         initRecyclerView();
 
         // Filter Dialog
@@ -95,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements
 
     private void initRecyclerView() {
         if (mQuery == null) {
+            // When Query is not set, FirestoreAdapter's EventListener registration
+            // will not be done
             Log.w(TAG, "No query, not initializing RecyclerView");
         }
 

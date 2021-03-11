@@ -97,7 +97,7 @@ public class RatingDialogFragment extends DialogFragment implements View.OnClick
         Rating rating = new Rating(
                 Objects.requireNonNull(FirebaseUtil.getAuth().getCurrentUser()),
                 mBinding.restaurantFormRating.getRating(),
-                mBinding.restaurantFormText.toString());
+                mBinding.restaurantFormText.getText().toString());
 
         if (mRatingListener != null) {
             mRatingListener.onRating(rating);

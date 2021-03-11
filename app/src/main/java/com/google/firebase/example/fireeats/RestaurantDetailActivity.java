@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.example.fireeats.adapter.RatingAdapter;
 import com.google.firebase.example.fireeats.databinding.ActivityRestaurantDetailBinding;
@@ -52,6 +51,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
 
     public static final String KEY_RESTAURANT_ID = "key_restaurant_id";
     private static final String TAG = "RestaurantDetail";
+    private static final int LIMIT = 50;
     private ActivityRestaurantDetailBinding mBinding;
 
     private RatingDialogFragment mRatingDialog;
@@ -89,7 +89,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         Query ratingsQuery = mRestaurantRef
                 .collection(Rating.COLLECTION)
                 .orderBy(Rating.FIELD_TIMESTAMP, Query.Direction.DESCENDING)
-                .limit(50);
+                .limit(LIMIT);
 
         // RecyclerView
         mRatingAdapter = new RatingAdapter(ratingsQuery) {
@@ -141,8 +141,34 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
     }
 
     private Task<Void> addRating(final DocumentReference restaurantRef, final Rating rating) {
-        // TODO(developer): Implement
-        return Tasks.forException(new Exception("not yet implemented"));
+        // Create a reference to the new Rating document, for use inside the transaction
+        final DocumentReference ratingRef = restaurantRef.collection(Rating.COLLECTION).document();
+
+        // In a transaction, add the new rating and update aggregate totals
+        return mFirestore.runTransaction(transaction -> {
+
+            // Read current restaurant document reference and convert to Restaurant POJO
+            Restaurant restaurant = Objects.requireNonNull(
+                    transaction.get(restaurantRef).toObject(Restaurant.class)
+            );
+
+            // Compute new number of ratings
+            int newNumRatings = restaurant.getNumRatings() + 1;
+
+            // Compute new average rating
+            double oldRatingTotal = restaurant.getAvgRating() * restaurant.getNumRatings();
+            double newAvgRating = (rating.getRating() + oldRatingTotal) / newNumRatings;
+
+            // Set new aggregate on Restaurant POJO
+            restaurant.setNumRatings(newNumRatings);
+            restaurant.setAvgRating(newAvgRating);
+
+            // Commit Restaurant update and its Rating to Firestore
+            transaction.set(restaurantRef, restaurant);
+            transaction.set(ratingRef, rating);
+
+            return null;
+        });
     }
 
     /**

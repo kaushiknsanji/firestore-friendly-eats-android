@@ -83,12 +83,12 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         mFirestore = FirebaseUtil.getFirestore();
 
         // Get reference to the restaurant
-        mRestaurantRef = mFirestore.collection("restaurants").document(restaurantId);
+        mRestaurantRef = mFirestore.collection(Restaurant.COLLECTION).document(restaurantId);
 
         // Get ratings
         Query ratingsQuery = mRestaurantRef
-                .collection("ratings")
-                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .collection(Rating.COLLECTION)
+                .orderBy(Rating.FIELD_TIMESTAMP, Query.Direction.DESCENDING)
                 .limit(50);
 
         // RecyclerView

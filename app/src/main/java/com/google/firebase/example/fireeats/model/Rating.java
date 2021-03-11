@@ -18,6 +18,7 @@ package com.google.firebase.example.fireeats.model;
 import android.text.TextUtils;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
@@ -25,7 +26,11 @@ import java.util.Date;
 /**
  * Model POJO for a rating.
  */
+@IgnoreExtraProperties
 public class Rating {
+
+    public static final String COLLECTION = "ratings";
+    public static final String FIELD_TIMESTAMP = "timestamp";
 
     private String userId;
     private String userName;

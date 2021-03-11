@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.snackbar.Snackbar;
@@ -89,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements
         mFirestore = FirebaseUtil.getFirestore();
         // Initialize Query on "restaurants" Collection ordered by "avgRating" descending
         // and take first 50 entries only
-        mQuery = mFirestore.collection("restaurants")
-                .orderBy("avgRating", Query.Direction.DESCENDING)
+        mQuery = mFirestore.collection(Restaurant.COLLECTION)
+                .orderBy(Restaurant.FIELD_AVG_RATING, Query.Direction.DESCENDING)
                 .limit(LIMIT);
         // Initialize the main RecyclerView
         initRecyclerView();
@@ -161,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void onAddItemsClicked() {
         // Get a reference to "restaurants" collection
-        CollectionReference restaurants = mFirestore.collection("restaurants");
+        CollectionReference restaurants = mFirestore.collection(Restaurant.COLLECTION);
 
         // Add 10 random restaurants
         for (int i = 0; i < 10; i++) {
@@ -176,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onFilter(Filters filters) {
         // Construct initial Query on "restaurants" collection
-        Query query = mFirestore.collection("restaurants");
+        Query query = mFirestore.collection(Restaurant.COLLECTION);
 
         // Add Category equality filter if set
         if (filters.hasCategory()) {
@@ -289,7 +288,4 @@ public class MainActivity extends AppCompatActivity implements
         mViewModel.setIsSigningIn(true);
     }
 
-    private void showTodoToast() {
-        Toast.makeText(this, "TODO: Implement", Toast.LENGTH_SHORT).show();
-    }
 }

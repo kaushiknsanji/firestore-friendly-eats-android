@@ -23,3 +23,12 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Keep Generics information AS-IS (may be required by Firebase libraries)
+-keepattributes Signature
+
+# Keep Application wide Model classes AS-IS
+-keep class com.google.firebase.example.fireeats.model.** { *; }
+
+# Keep "Filters" class AS-IS
+-keep public class com.google.firebase.example.fireeats.Filters

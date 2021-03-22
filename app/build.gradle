@@ -1,6 +1,21 @@
 apply plugin: 'com.android.application'
 
+// Load the details for signing the APK
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
+
+    signingConfigs {
+        release {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+    }
+
     compileSdkVersion versions.compileSdk
 
     defaultConfig {
@@ -12,12 +27,21 @@ android {
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary true
+        archivesBaseName = "$applicationId-v$versionName"
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            // Automate App signing
+            signingConfig signingConfigs.release
         }
     }
 

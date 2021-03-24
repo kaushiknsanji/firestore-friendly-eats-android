@@ -23,6 +23,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Restaurant {
 
+    public static final String COLLECTION = "restaurants";
     public static final String FIELD_CITY = "city";
     public static final String FIELD_CATEGORY = "category";
     public static final String FIELD_PRICE = "price";
@@ -37,6 +38,9 @@ public class Restaurant {
     private int numRatings;
     private double avgRating;
 
+    /**
+     * Empty constructor required for Firebase auto data mapping
+     */
     public Restaurant() {
     }
 

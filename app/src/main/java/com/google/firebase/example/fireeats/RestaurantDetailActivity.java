@@ -52,6 +52,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
 
     public static final String KEY_RESTAURANT_ID = "key_restaurant_id";
     private static final String TAG = "RestaurantDetail";
+    private static final int LIMIT = 50;
     private ActivityRestaurantDetailBinding mBinding;
 
     private RatingDialogFragment mRatingDialog;
@@ -83,13 +84,13 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         mFirestore = FirebaseUtil.getFirestore();
 
         // Get reference to the restaurant
-        mRestaurantRef = mFirestore.collection("restaurants").document(restaurantId);
+        mRestaurantRef = mFirestore.collection(Restaurant.COLLECTION).document(restaurantId);
 
         // Get ratings
         Query ratingsQuery = mRestaurantRef
-                .collection("ratings")
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .limit(50);
+                .collection(Rating.COLLECTION)
+                .orderBy(Rating.FIELD_TIMESTAMP, Query.Direction.DESCENDING)
+                .limit(LIMIT);
 
         // RecyclerView
         mRatingAdapter = new RatingAdapter(ratingsQuery) {

@@ -40,7 +40,9 @@ public class Rating {
     @ServerTimestamp
     private Date timestamp;
 
-
+    /**
+     * Empty constructor required for Firebase auto data mapping
+     */
     public Rating() {
     }
 

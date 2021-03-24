@@ -38,7 +38,7 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class RestaurantAdapter extends FirestoreAdapter<RestaurantAdapter.ViewHolder> {
 
-    private OnRestaurantSelectedListener mListener;
+    private final OnRestaurantSelectedListener mListener;
 
     public RestaurantAdapter(Query query, OnRestaurantSelectedListener listener) {
         super(query);
@@ -65,7 +65,7 @@ public class RestaurantAdapter extends FirestoreAdapter<RestaurantAdapter.ViewHo
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ItemRestaurantBinding mItemBinding;
+        private final ItemRestaurantBinding mItemBinding;
 
         public ViewHolder(View itemView) {
             super(itemView);

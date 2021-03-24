@@ -53,7 +53,7 @@ public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ItemRatingBinding mItemBinding;
+        private final ItemRatingBinding mItemBinding;
 
         public ViewHolder(View itemView) {
             super(itemView);

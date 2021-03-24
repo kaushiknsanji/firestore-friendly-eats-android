@@ -37,31 +37,51 @@ import androidx.recyclerview.widget.RecyclerView;
 public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<VH> {
 
+    // Constant used for logs
     private static final String TAG = "Firestore Adapter";
-
+    // List to store the snapshots retrieved from the Query for the changes
+    private final ArrayList<DocumentSnapshot> mSnapshots = new ArrayList<>();
+    // The Query to read the snapshots from
     private Query mQuery;
+    // The Listener to be registered on the Query set
     private ListenerRegistration mRegistration;
 
-    private ArrayList<DocumentSnapshot> mSnapshots = new ArrayList<>();
-
+    /**
+     * Constructor of {@link FirestoreAdapter}
+     *
+     * @param query The {@link Query} to listen for changes and read the snapshots from.
+     */
     public FirestoreAdapter(Query query) {
         mQuery = query;
     }
 
+    /**
+     * Starts listening to the {@link Query} set.
+     */
     public void startListening() {
         // TODO(developer): Implement
     }
 
+    /**
+     * Stops listening to the {@link Query} set.
+     */
     public void stopListening() {
+        // If listener was previously registered, then detach the listener from the Query
         if (mRegistration != null) {
             mRegistration.remove();
             mRegistration = null;
         }
 
+        // Clear existing data
         mSnapshots.clear();
         notifyDataSetChanged();
     }
 
+    /**
+     * Method to change the {@link Query} previously set.
+     *
+     * @param query The new {@link Query} to listen for changes and read the snapshots from.
+     */
     public void setQuery(Query query) {
         // Stop listening
         stopListening();
@@ -75,18 +95,38 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
         startListening();
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     *
+     * @return The total number of items in this adapter.
+     */
     @Override
     public int getItemCount() {
+        // Return the number of snapshots present as the Item count of the Adapter
         return mSnapshots.size();
     }
 
+    /**
+     * Returns the {@link DocumentSnapshot} present at the position {@code index}.
+     */
     protected DocumentSnapshot getSnapshot(int index) {
         return mSnapshots.get(index);
     }
 
-    protected void onError(FirebaseFirestoreException e) {
+    /**
+     * Called when there is an error while listening to the {@link Query} set.
+     * Can be overridden by subclasses to perform some action or show some message on error.
+     *
+     * @param error The error occurred while listening to the {@link Query} set.
+     */
+    protected void onError(FirebaseFirestoreException error) {
     }
 
+    /**
+     * Called after the new snapshot of the Event was processed successfully.
+     * Can be overridden by subclasses to perform some action or show/hide appropriate views
+     * on checking for "no documents" state.
+     */
     protected void onDataChanged() {
     }
 }

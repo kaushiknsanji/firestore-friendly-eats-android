@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements
 
     private void initRecyclerView() {
         if (mQuery == null) {
+            // When Query is not set, FirestoreAdapter's EventListener registration
+            // will not be done
             Log.w(TAG, "No query, not initializing RecyclerView");
         }
 
